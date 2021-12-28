@@ -37,4 +37,6 @@ void handleEdgeAdding();
 
 void getNumOfNodes();
 
+pnode findNode(int id,pnode *head);
+
 #endif
