@@ -3,6 +3,8 @@
 
 typedef struct GRAPH_NODE_ *pnode;;
 
+char c;
+
 typedef struct edge_ {
     int weight;
     pnode dest;
@@ -43,10 +45,16 @@ void buildGraphNodes();
 
 pnode findNode(int id, pnode *head);
 
-void connect_edge(pedge *edgesHead, pnode dest, int weight);
+void createEdge(pedge *edgesHead, pnode dest, int weight);
 
 void freeEdges(pedge *edgeHead);
 
 void freeGraph(pnode *pNode);
+
+void addCustomNode(pnode *head, int id);
+
+void connectEdge(int *dest, int *weight, node *currNode);
+
+void handleCustomNodeAdding();
 
 #endif

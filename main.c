@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 int main() {
-    char c;
+
     while (c != '\n' && c != EOF) {
         c = getchar();
         if (c == 'n') {
@@ -13,7 +13,7 @@ int main() {
             buildGraphNodes();
         }
         if (c == 'B') {
-            continue;
+            handleCustomNodeAdding();
         }
         if (c == 'D') {
             continue;

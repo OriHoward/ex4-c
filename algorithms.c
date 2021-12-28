@@ -1,24 +1,41 @@
 #include <stdio.h>
 #include "graph.h"
 #include <stdlib.h>
+#include <ctype.h>
 
 
-int isAssigned;
-pnode graphHead;
+int isAssigned = 0;
+pnode graphHead = NULL;
 
 
 void handleEdgeAdding() {
     int dest, weight, nodeID;
+    dest=weight=nodeID = 0;
     isAssigned = scanf("%d", &nodeID);
     pnode currNode = findNode(nodeID, &graphHead);
+    connectEdge(&dest, &weight, currNode);
+}
+
+void handleCustomNodeAdding() {
+    int dest, weight, nodeID;
+    dest=weight=nodeID = 0;
+    isAssigned = scanf("%d", &nodeID);
+    pnode currNode = findNode(nodeID, &graphHead);
+    if (!currNode) {
+        addCustomNode(&currNode, nodeID);
+        connectEdge(&dest, &weight, currNode);
+    }
+}
+
+void connectEdge(int *dest, int *weight, node *currNode) {
     while (isAssigned) {
-        isAssigned = scanf("%d %d", &dest, &weight);
-        if (isAssigned && currNode && dest>=0 && weight>= 0) {
-            printf("%d,%d edge \n", dest, weight);
-            pnode destNode = findNode(dest, &graphHead);
-            connect_edge(&currNode->edges, destNode, weight);
-            dest = -1;
-            weight = -1;
+        isAssigned = scanf("%d %d", dest, weight);
+        if (isAssigned && currNode && (*dest) >= 0 && (*weight) >= 0) {
+            printf("%d,%d edge \n", (*dest), (*weight));
+            pnode destNode = findNode((*dest), &graphHead);
+            createEdge(&currNode->edges, destNode, (*weight));
+            (*dest) = -1;
+            (*weight) = -1;
         }
     }
 }
@@ -80,6 +97,21 @@ void freeGraph(pnode *pNode) {
     *pNode = NULL;
 }
 
+void addCustomNode(pnode *head, int id) {
+    pnode runner = *head;
+    pnode newNode = (pnode) malloc(sizeof(node));
+    newNode->node_num = id;
+    newNode->next = NULL;
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        while (runner->next != NULL) {
+            runner = runner->next;
+        }
+        runner->next = newNode;
+    }
+}
+
 void insert_node_cmd(pnode *head) {
     pnode runner = *head;
     pnode newNode = (pnode) malloc(sizeof(node));
@@ -97,7 +129,7 @@ void insert_node_cmd(pnode *head) {
     }
 }
 
-void connect_edge(pedge *edgesHead, pnode dest, int weight) {
+void createEdge(pedge *edgesHead, pnode dest, int weight) {
     pedge runner = *edgesHead;
     pedge newEdge = (pedge) malloc(sizeof(edge));
     newEdge->dest = dest;
