@@ -36,9 +36,10 @@ void connectEdge(int *dest, int *weight, node *currNode) {
         if (isAssigned && currNode && (*dest) >= 0 && (*weight) >= 0) {
             printf("%d,%d edge \n", (*dest), (*weight));
             pnode destNode = findNode((*dest), &graphHead);
-            if (destNode) {
-                createEdge(&currNode->edges, destNode, (*weight));
+            if (!destNode) {
+                destNode = addCustomNode(&graphHead, *dest);
             }
+            createEdge(&currNode->edges, destNode, (*weight));
             (*dest) = -1;
             (*weight) = -1;
         }
