@@ -17,6 +17,7 @@ typedef struct GRAPH_NODE_ {
 } node, *pnode;
 
 void build_graph_cmd(pnode *head);
+
 void insert_node_cmd(pnode *head);
 
 
@@ -26,17 +27,26 @@ void insert_node_cmd(pnode *head);
 // 3. Then and only then I free the node itself. (a temp is needed here)
 
 void delete_node_cmd(pnode *head);
+
 void printGraph_cmd(pnode head); //for self debug
-void deleteGraph_cmd(pnode* head);
+void deleteGraph_cmd(pnode *head);
+
 void shortsPath_cmd(pnode head);
+
 void TSP_cmd(pnode head);
 
 
 //privat functions
 void handleEdgeAdding();
 
-void getNumOfNodes();
+void buildGraphNodes();
 
-pnode findNode(int id,pnode *head);
+pnode findNode(int id, pnode *head);
+
+void connect_edge(pedge *edgesHead, pnode dest, int weight);
+
+void freeEdges(pedge *edgeHead);
+
+void freeGraph(pnode *pNode);
 
 #endif

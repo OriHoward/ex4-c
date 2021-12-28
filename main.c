@@ -10,7 +10,7 @@ int main() {
             handleEdgeAdding();
         }
         if (c == 'A') {
-            getNumOfNodes();
+            buildGraphNodes();
         }
         if (c == 'B') {
             continue;
@@ -25,7 +25,7 @@ int main() {
             continue;
         }
         if (c == 'E') {
-            return -1;
+            return 0;
         }
 
     }
