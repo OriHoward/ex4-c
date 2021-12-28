@@ -13,10 +13,12 @@ void handleEdgeAdding() {
     pnode currNode = findNode(nodeID, &graphHead);
     while (isAssigned) {
         isAssigned = scanf("%d %d", &dest, &weight);
-        if (isAssigned && currNode) {
+        if (isAssigned && currNode && dest>=0 && weight>= 0) {
             printf("%d,%d edge \n", dest, weight);
             pnode destNode = findNode(dest, &graphHead);
             connect_edge(&currNode->edges, destNode, weight);
+            dest = -1;
+            weight = -1;
         }
     }
 }
@@ -36,12 +38,12 @@ pnode findNode(int id, pnode *head) {
 }
 
 void buildGraphNodes() {
+    if (graphHead != NULL) {
+        freeGraph(&graphHead);
+    }
     int num;
     isAssigned = scanf("%d", &num);
     if (isAssigned) {
-        if (graphHead != NULL) {
-            freeGraph(&graphHead);
-        }
         printf("%d nodes created \n", (num));
         for (int i = 0; i < num; ++i) {
             insert_node_cmd(&graphHead);
