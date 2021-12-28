@@ -37,8 +37,12 @@ void handleDeleteNode() {
         pnode nodeToDelete = findNode(nodeNum, &graphHead);
         if (nodeToDelete) {
             deleteSrcEdges(&graphHead, nodeNum);
+            if (nodeToDelete->node_num == graphHead->node_num) {
+                graphHead = nodeToDelete->next;
+            }
             freeEdges(&nodeToDelete->edges);
             free(nodeToDelete);
+            nodeToDelete = NULL;
             printf("banana");
         }
     }
@@ -48,12 +52,12 @@ void deleteSrcEdges(pnode *head, int nodeId) {
     pnode nodeRunner = *head;
     pedge edgeRunner;
     while (nodeRunner != NULL) {
-        if (nodeRunner->next !=NULL && nodeRunner->next->node_num == nodeId) {
+        if (nodeRunner->next != NULL && nodeRunner->next->node_num == nodeId) {
             nodeRunner->next = nodeRunner->next->next;
         }
         edgeRunner = nodeRunner->edges;
         while (edgeRunner != NULL) {
-            if (edgeRunner->next !=NULL && edgeRunner->dest->node_num == nodeId) {
+            if (edgeRunner->next != NULL && edgeRunner->dest->node_num == nodeId) {
                 pedge temp = edgeRunner->next;
                 edgeRunner->next = edgeRunner->next->next;
                 free(temp);
