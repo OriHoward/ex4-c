@@ -13,7 +13,7 @@ void handleEdgeAdding() {
     dest = weight = nodeID = 0;
     isAssigned = scanf("%d", &nodeID);
     pnode currNode = findNode(nodeID, &graphHead);
-    connectEdge(&dest, &weight, currNode);
+    connectEdge(dest, weight, currNode);
 }
 
 void handleCustomNodeAdding() {
@@ -23,10 +23,10 @@ void handleCustomNodeAdding() {
     pnode currNode = findNode(nodeID, &graphHead);
     if (!currNode) {
         pnode newNode = addCustomNode(&graphHead, nodeID);
-        connectEdge(&dest, &weight, newNode);
+        connectEdge(dest, weight, newNode);
     } else {
         freeEdges(&currNode->edges);
-        connectEdge(&dest, &weight, currNode);
+        connectEdge(dest, weight, currNode);
     }
 }
 
@@ -43,6 +43,9 @@ void handleDeleteNode() {
         }
     }
 }
+//B 3 4 5 5 6
+//B 4 3 0
+//D 3
 
 void deleteSrcEdges(pnode *head, int nodeId) {
     pnode nodeRunner = *head;
@@ -53,10 +56,16 @@ void deleteSrcEdges(pnode *head, int nodeId) {
         }
         edgeRunner = nodeRunner->edges;
         while (edgeRunner != NULL) {
-            if (edgeRunner->next !=NULL && edgeRunner->dest->node_num == nodeId) {
+            if (edgeRunner->dest->node_num == nodeId) {
                 pedge temp = edgeRunner->next;
-                edgeRunner->next = edgeRunner->next->next;
-                free(temp);
+                if (edgeRunner->next !=NULL){
+                    edgeRunner->next = edgeRunner->next->next;
+                    free(temp);
+                }
+                else {
+                    free(edgeRunner);
+                    edgeRunner = NULL;
+                }
             }
             edgeRunner = edgeRunner->next;
         }
@@ -65,18 +74,18 @@ void deleteSrcEdges(pnode *head, int nodeId) {
 }
 
 
-void connectEdge(int *dest, int *weight, node *currNode) {
+void connectEdge(int dest, int weight, node *currNode) {
     while (isAssigned) {
-        isAssigned = scanf("%d %d", dest, weight);
-        if (isAssigned && currNode && (*dest) >= 0 && (*weight) >= 0) {
-            printf("%d,%d edge \n", (*dest), (*weight));
-            pnode destNode = findNode((*dest), &graphHead);
+        isAssigned = scanf("%d %d", &dest, &weight);
+        if (isAssigned && currNode && (dest) >= 0 && (weight) >= 0) {
+            printf("%d,%d edge \n", (dest), (weight));
+            pnode destNode = findNode((dest), &graphHead);
             if (!destNode) {
-                destNode = addCustomNode(&graphHead, *dest);
+                destNode = addCustomNode(&graphHead, dest);
             }
-            createEdge(&currNode->edges, destNode, (*weight));
-            (*dest) = -1;
-            (*weight) = -1;
+            createEdge(&currNode->edges, destNode, (weight));
+            (dest) = -1;
+            (weight) = -1;
         }
     }
 }
@@ -141,6 +150,7 @@ void freeGraph(pnode *pNode) {
 pnode addCustomNode(pnode *head, int id) {
     pnode runner = *head;
     pnode newNode = (pnode) malloc(sizeof(node));
+    //#todo check if memory was allocated
     newNode->node_num = id;
     newNode->next = NULL;
     if (*head == NULL) {
