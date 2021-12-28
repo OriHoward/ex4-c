@@ -30,6 +30,41 @@ void handleCustomNodeAdding() {
     }
 }
 
+void handleDeleteNode() {
+    int nodeNum;
+    isAssigned = scanf("%d", &nodeNum);
+    if (isAssigned) {
+        pnode nodeToDelete = findNode(nodeNum, &graphHead);
+        if (nodeToDelete) {
+            deleteSrcEdges(&graphHead, nodeNum);
+            freeEdges(&nodeToDelete->edges);
+            free(nodeToDelete);
+            printf("banana");
+        }
+    }
+}
+
+void deleteSrcEdges(pnode *head, int nodeId) {
+    pnode nodeRunner = *head;
+    pedge edgeRunner;
+    while (nodeRunner != NULL) {
+        if (nodeRunner->next !=NULL && nodeRunner->next->node_num == nodeId) {
+            nodeRunner->next = nodeRunner->next->next;
+        }
+        edgeRunner = nodeRunner->edges;
+        while (edgeRunner != NULL) {
+            if (edgeRunner->next !=NULL && edgeRunner->dest->node_num == nodeId) {
+                pedge temp = edgeRunner->next;
+                edgeRunner->next = edgeRunner->next->next;
+                free(temp);
+            }
+            edgeRunner = edgeRunner->next;
+        }
+        nodeRunner = nodeRunner->next;
+    }
+}
+
+
 void connectEdge(int *dest, int *weight, node *currNode) {
     while (isAssigned) {
         isAssigned = scanf("%d %d", dest, weight);

@@ -4,7 +4,7 @@
 
 int main() {
 
-    while (c != '\n' && c != EOF) {
+    while (c != EOF) {
         c = getchar();
         if (c == 'n') {
             handleEdgeAdding();
@@ -16,7 +16,7 @@ int main() {
             handleCustomNodeAdding();
         }
         if (c == 'D') {
-            continue;
+            handleDeleteNode();
         }
         if (c == 'S') {
             continue;

@@ -28,7 +28,7 @@ void insert_node_cmd(pnode *head);
 // 2. Then I iterate over the nodes, and I clean all the edges that contain the node to delete
 // 3. Then and only then I free the node itself. (a temp is needed here)
 
-void delete_node_cmd(pnode *head);
+void delete_node_cmd(pnode *head,int nodeId);
 
 void printGraph_cmd(pnode head); //for self debug
 void deleteGraph_cmd(pnode *head);
@@ -56,5 +56,9 @@ pnode addCustomNode(pnode *head, int id);
 void connectEdge(int *dest, int *weight, node *currNode);
 
 void handleCustomNodeAdding();
+
+void handleDeleteNode();
+
+void deleteSrcEdges(pnode *head,int nodeId);
 
 #endif
