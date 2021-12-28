@@ -51,7 +51,7 @@ void freeEdges(pedge *edgeHead);
 
 void freeGraph(pnode *pNode);
 
-void addCustomNode(pnode *head, int id);
+pnode addCustomNode(pnode *head, int id);
 
 void connectEdge(int *dest, int *weight, node *currNode);
 

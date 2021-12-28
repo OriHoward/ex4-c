@@ -10,7 +10,7 @@ pnode graphHead = NULL;
 
 void handleEdgeAdding() {
     int dest, weight, nodeID;
-    dest=weight=nodeID = 0;
+    dest = weight = nodeID = 0;
     isAssigned = scanf("%d", &nodeID);
     pnode currNode = findNode(nodeID, &graphHead);
     connectEdge(&dest, &weight, currNode);
@@ -18,11 +18,14 @@ void handleEdgeAdding() {
 
 void handleCustomNodeAdding() {
     int dest, weight, nodeID;
-    dest=weight=nodeID = 0;
+    dest = weight = nodeID = 0;
     isAssigned = scanf("%d", &nodeID);
     pnode currNode = findNode(nodeID, &graphHead);
     if (!currNode) {
-        addCustomNode(&currNode, nodeID);
+        pnode newNode = addCustomNode(&graphHead, nodeID);
+        connectEdge(&dest, &weight, newNode);
+    } else {
+        freeEdges(&currNode->edges);
         connectEdge(&dest, &weight, currNode);
     }
 }
@@ -33,7 +36,9 @@ void connectEdge(int *dest, int *weight, node *currNode) {
         if (isAssigned && currNode && (*dest) >= 0 && (*weight) >= 0) {
             printf("%d,%d edge \n", (*dest), (*weight));
             pnode destNode = findNode((*dest), &graphHead);
-            createEdge(&currNode->edges, destNode, (*weight));
+            if (destNode) {
+                createEdge(&currNode->edges, destNode, (*weight));
+            }
             (*dest) = -1;
             (*weight) = -1;
         }
@@ -97,7 +102,7 @@ void freeGraph(pnode *pNode) {
     *pNode = NULL;
 }
 
-void addCustomNode(pnode *head, int id) {
+pnode addCustomNode(pnode *head, int id) {
     pnode runner = *head;
     pnode newNode = (pnode) malloc(sizeof(node));
     newNode->node_num = id;
@@ -110,6 +115,7 @@ void addCustomNode(pnode *head, int id) {
         }
         runner->next = newNode;
     }
+    return newNode;
 }
 
 void insert_node_cmd(pnode *head) {
