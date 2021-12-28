@@ -31,4 +31,10 @@ void deleteGraph_cmd(pnode* head);
 void shortsPath_cmd(pnode head);
 void TSP_cmd(pnode head);
 
+
+//privat functions
+void handleEdgeAdding();
+
+void getNumOfNodes();
+
 #endif

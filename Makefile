@@ -4,10 +4,14 @@ CFLAGS = -Wall -Werror
 
 all: graph
 
-graph: main.o
-	${CC} ${CFLAGS} -o graph main.o
+graph: main.o algorithms.o
+	${CC} ${CFLAGS} -o graph main.o algorithms.o
 
-main.o: main.c
+
+algorithms.o: algorithms.c graph.h
+	${CC} ${CFLAGS} -c  algorithms.c
+
+main.o: main.c graph.h
 	${CC} ${CFLAGS} -c main.c
 
 clean:
