@@ -4,9 +4,9 @@
 #include "minQueue.h"
 
 
-QueueNode *newNode(int d, int p) {
+QueueNode *newNode(pnode d, int p) {
     QueueNode *temp = (QueueNode *) malloc(sizeof(QueueNode));
-    temp->data = d;
+    temp->node = d;
     temp->node->dist = p;
     temp->next = NULL;
 
@@ -14,7 +14,7 @@ QueueNode *newNode(int d, int p) {
 }
 
 int peek(QueueNode **head) {
-    return (*head)->data;
+    return (*head)->node->dist;
 }
 
 void pop(QueueNode **head) {
@@ -23,7 +23,7 @@ void pop(QueueNode **head) {
     free(temp);
 }
 
-void push(QueueNode **head, int d, int p) {
+void push(QueueNode **head, pnode d, int p) {
     QueueNode *start = (*head);
 
     QueueNode *temp = newNode(d, p);
