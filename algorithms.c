@@ -59,22 +59,28 @@ void deleteSrcEdges(pnode *head, int nodeId) {
             nodeRunner->next = nodeRunner->next->next;
         }
         edgeRunner = nodeRunner->edges;
-        while (edgeRunner != NULL) {
+        pedge temp;
+        while (edgeRunner != NULL && nodeRunner->node_num != nodeId) {
             if (edgeRunner->dest->node_num == nodeId) {
-                pedge temp = edgeRunner->next;
-                if (edgeRunner->next !=NULL){
+                temp = edgeRunner;
+                nodeRunner->edges = temp->next;
+                free(temp);
+                edgeRunner = nodeRunner->edges;
+            } else {
+                if (edgeRunner->next != NULL && edgeRunner->next->dest->node_num == nodeId) {
+                    temp = edgeRunner->next;
                     edgeRunner->next = edgeRunner->next->next;
                     free(temp);
                 }
                 else {
-                    free(edgeRunner);
-                    edgeRunner = NULL;
+                    edgeRunner = edgeRunner->next;
                 }
             }
-            edgeRunner = edgeRunner->next;
         }
         nodeRunner = nodeRunner->next;
+
     }
+
 }
 
 
