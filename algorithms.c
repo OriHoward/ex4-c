@@ -71,8 +71,7 @@ void deleteSrcEdges(pnode *head, int nodeId) {
                     temp = edgeRunner->next;
                     edgeRunner->next = edgeRunner->next->next;
                     free(temp);
-                }
-                else {
+                } else {
                     edgeRunner = edgeRunner->next;
                 }
             }
@@ -91,9 +90,10 @@ void connectEdge(int dest, int weight, node *currNode) {
             printf("%d,%d edge \n", (dest), (weight));
             pnode destNode = findNode((dest), &graphHead);
             if (!destNode) {
-                destNode = addCustomNode(&graphHead, dest);
+                printf("Destination doesn't exist \n");
+            } else {
+                createEdge(&currNode->edges, destNode, (weight));
             }
-            createEdge(&currNode->edges, destNode, (weight));
             (dest) = -1;
             (weight) = -1;
         }
