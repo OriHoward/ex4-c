@@ -260,5 +260,31 @@ void handleShortestPath() {
     }
 }
 
+void handleTSP() {
+    int numOfNodes,input;
+    pnode *nodeArr;
+    if (scanf("%d",&numOfNodes)) {
+        nodeArr = (pnode*) malloc(sizeof(node)*numOfNodes);
+        if (nodeArr == NULL) {
+            exit(0);
+        }
+        for (int i = 0; i < numOfNodes; ++i) {
+            if (scanf("%d",&input)) {
+                pnode newNode = (pnode) malloc(sizeof(node));
+                newNode->node_num = input;
+                checkMemoryAllocation(newNode);
+                nodeArr[i] = newNode;
+            }
+        }
+        TSP(&graphHead,nodeArr);
+    }
+}
+
+void TSP(pnode *head,pnode *nodeArr) {
+    for (int i = 0; i < 5; ++i) {
+        printf("%d",nodeArr[i]->node_num);
+    }
+}
+
 //A 7 n 0 3 4 n 6 3 2
 // A 4 n 0 2 5 3 3 n 2 0 4 1 1 n 1 3 7 0 2

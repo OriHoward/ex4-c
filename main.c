@@ -23,7 +23,7 @@ int main() {
             handleShortestPath();
         }
         if (c == 'T') {
-            continue;
+            handleTSP();
         }
         if (c == 'E') {
             return 0;

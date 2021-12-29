@@ -68,4 +68,8 @@ void checkMemoryAllocation(void* pointer);
 
 void handleShortestPath();
 
+void handleTSP();
+
+void TSP(pnode *head,pnode *nodeArr);
+
 #endif
