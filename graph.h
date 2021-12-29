@@ -14,6 +14,7 @@ typedef struct edge_ {
 
 typedef struct GRAPH_NODE_ {
     int node_num;
+    int dist;
     pedge edges;
     struct GRAPH_NODE_ *next;
 } node, *pnode;
@@ -23,12 +24,12 @@ void build_graph_cmd(pnode *head);
 void insert_node_cmd(pnode *head);
 
 
-// to delete the node we need to do the following:
+// to delete the queueNode we need to do the following:
 // 1. First I clean the linked list that I contain
-// 2. Then I iterate over the nodes, and I clean all the edges that contain the node to delete
-// 3. Then and only then I free the node itself. (a temp is needed here)
+// 2. Then I iterate over the nodes, and I clean all the edges that contain the queueNode to delete
+// 3. Then and only then I free the queueNode itself. (a temp is needed here)
 
-void delete_node_cmd(pnode *head,int nodeId);
+void delete_node_cmd(pnode *head, int nodeId);
 
 void printGraph_cmd(pnode head); //for self debug
 void deleteGraph_cmd(pnode *head);
@@ -59,6 +60,6 @@ void handleCustomNodeAdding();
 
 void handleDeleteNode();
 
-void deleteSrcEdges(pnode *head,int nodeId);
+void deleteSrcEdges(pnode *head, int nodeId);
 
 #endif

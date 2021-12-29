@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "graph.h"
+#include "minQueue.h"
 #include <stdlib.h>
 #include <ctype.h>
 

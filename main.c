@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "graph.h"
+#include "minQueue.h"
 #include <stdlib.h>
 
 int main() {
@@ -26,6 +27,9 @@ int main() {
         }
         if (c == 'E') {
             return 0;
+        }
+        if (c == 'Q') {
+            continue;
         }
 
     }
