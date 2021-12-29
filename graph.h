@@ -62,4 +62,8 @@ void handleDeleteNode();
 
 void deleteSrcEdges(pnode *head, int nodeId);
 
+double dijkstra(pnode *head, int srcNodeID, int destNodeID);
+
+void handleShortestPath();
+
 #endif
