@@ -64,7 +64,7 @@ void deleteSrcEdges(pnode *head, int nodeId);
 
 double dijkstra(pnode *head, int srcNodeID, int destNodeID);
 
-void checkMemoryAllocation(void* pointer)
+void checkMemoryAllocation(void* pointer);
 
 void handleShortestPath();
 
