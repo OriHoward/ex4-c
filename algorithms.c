@@ -133,7 +133,6 @@ void buildGraphNodes() {
 void freeEdges(pedge *edgeHead) {
     pedge runner = *edgeHead;
     pedge next;
-
     while (runner != NULL) {
         next = runner->next;
         free(runner);
@@ -162,7 +161,7 @@ void freeGraph(pnode *pNode) {
 pnode addCustomNode(pnode *head, int id) {
     pnode runner = *head;
     pnode newNode = (pnode) malloc(sizeof(node));
-    //#todo check if memory was allocated
+    checkMemoryAllocation(newNode);
     newNode->node_num = id;
     newNode->next = NULL;
     newNode->edges = NULL;
@@ -180,6 +179,7 @@ pnode addCustomNode(pnode *head, int id) {
 void insert_node_cmd(pnode *head) {
     pnode runner = *head;
     pnode newNode = (pnode) malloc(sizeof(node));
+    checkMemoryAllocation(newNode);
     newNode->next = NULL;
     newNode->edges = NULL;
     if (*head == NULL) {
@@ -197,6 +197,7 @@ void insert_node_cmd(pnode *head) {
 void createEdge(pedge *edgesHead, pnode dest, int weight) {
     pedge runner = *edgesHead;
     pedge newEdge = (pedge) malloc(sizeof(edge));
+    checkMemoryAllocation(newEdge);
     newEdge->dest = dest;
     newEdge->weight = weight;
     newEdge->next = NULL;
@@ -226,16 +227,14 @@ double dijkstra(pnode *head, int srcNodeID, int destNodeID) {
         }
         current = current->next;
     }
-
-
     while (!isEmpty(&pq)) {
         current = pop(&pq);
         pedge curredge = current->edges;
         while (curredge) {
             pnode neighbor = curredge->dest;
             int alt = current->dist + curredge->weight;
-            if (current->dist == INT_MAX) { // This If handles a case where there is no path to the node.
-                return -1;
+            if (alt < 0) {
+                alt = INT_MAX;
             }
             if (alt < neighbor->dist) {
                 neighbor->dist = alt;
@@ -244,8 +243,13 @@ double dijkstra(pnode *head, int srcNodeID, int destNodeID) {
             curredge = curredge->next;
         }
     }
-
     return findNode(destNodeID, head)->dist;
+}
+
+void checkMemoryAllocation(void *pointer) {
+    if (!pointer) {
+        exit(0);
+    }
 }
 
 void handleShortestPath() {
