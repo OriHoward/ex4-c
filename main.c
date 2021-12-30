@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "graph.h"
 #include "minQueue.h"
-#include <stdlib.h>
+
 
 int main() {
 
@@ -25,11 +25,8 @@ int main() {
         if (c == 'T') {
             handleTSP();
         }
-        if (c == 'E') {
-            return 0;
-        }
-
     }
+    freeGraph();
     return 0;
 }
 

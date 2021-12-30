@@ -2,7 +2,6 @@
 #include "graph.h"
 #include "minQueue.h"
 #include <stdlib.h>
-#include <ctype.h>
 #include <limits.h>
 #include <string.h>
 
@@ -115,7 +114,7 @@ pnode findNode(int id, pnode *head) {
 
 void buildGraphNodes() {
     if (graphHead != NULL) {
-        freeGraph(&graphHead);
+        freeGraph();
     }
     int num;
     isAssigned = scanf("%d", &num);
@@ -137,8 +136,8 @@ void freeEdges(pedge *edgeHead) {
     *edgeHead = NULL;
 }
 
-void freeGraph(pnode *pNode) {
-    pnode runner = *pNode;
+void freeGraph() {
+    pnode runner = graphHead;
     struct GRAPH_NODE_ *next;
 
     while (runner != NULL) {
@@ -151,7 +150,7 @@ void freeGraph(pnode *pNode) {
         free(runner);
         runner = next;
     }
-    *pNode = NULL;
+    graphHead = NULL;
 }
 
 pnode addCustomNode(pnode *head, int id) {
@@ -263,6 +262,7 @@ void handleShortestPath() {
 void handleTSP() {
     int numOfNodes, input;
     pnode *nodeArr;
+    pnode inputNode;
     if (scanf("%d", &numOfNodes)) {
         nodeArr = (pnode *) malloc(sizeof(node) * numOfNodes);
         if (nodeArr == NULL) {
@@ -270,10 +270,10 @@ void handleTSP() {
         }
         for (int i = 0; i < numOfNodes; ++i) {
             if (scanf("%d", &input)) {
-                pnode newNode = (pnode) malloc(sizeof(node));
-                newNode->node_num = input;
-                checkMemoryAllocation(newNode);
-                nodeArr[i] = newNode;
+                inputNode = (pnode) malloc(sizeof(node));
+                checkMemoryAllocation(inputNode);
+                inputNode->node_num = input;
+                nodeArr[i] = inputNode;
             }
         }
         int shortestPath = INT_MAX;
@@ -282,6 +282,10 @@ void handleTSP() {
             shortestPath = -1;
         }
         printf("TSP shortest path: %d\n", shortestPath);
+        for (int i = 0; i < numOfNodes; ++i) {
+            free(nodeArr[i]);
+        }
+        free(nodeArr);
     }
 }
 
