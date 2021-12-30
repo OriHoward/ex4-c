@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <limits.h>
+#include <string.h>
 
 
 int isAssigned = 0;
@@ -261,30 +262,59 @@ void handleShortestPath() {
 }
 
 void handleTSP() {
-    int numOfNodes,input;
+    int numOfNodes, input;
     pnode *nodeArr;
-    if (scanf("%d",&numOfNodes)) {
-        nodeArr = (pnode*) malloc(sizeof(node)*numOfNodes);
+    if (scanf("%d", &numOfNodes)) {
+        nodeArr = (pnode *) malloc(sizeof(node) * numOfNodes);
         if (nodeArr == NULL) {
             exit(0);
         }
         for (int i = 0; i < numOfNodes; ++i) {
-            if (scanf("%d",&input)) {
+            if (scanf("%d", &input)) {
                 pnode newNode = (pnode) malloc(sizeof(node));
                 newNode->node_num = input;
                 checkMemoryAllocation(newNode);
                 nodeArr[i] = newNode;
             }
         }
-        TSP(&graphHead,nodeArr);
+        permute(nodeArr, 0, numOfNodes - 1, numOfNodes);
     }
 }
 
-void TSP(pnode *head,pnode *nodeArr) {
-    for (int i = 0; i < 5; ++i) {
-        printf("%d",nodeArr[i]->node_num);
+void TSP(pnode *head, pnode *curr_permutation,int len) {
+    for (int i = 0; i < len; ++i) {
+        printf("%d", curr_permutation[i]->node_num);
+    }
+    printf("\n");
+}
+
+
+void permute(pnode *nodeArr, int start, int end, int len) {
+    int i;
+    pnode current_permutation[len];
+    if (start == end) {
+        for (int j = 0; j < len; ++j) {
+            current_permutation[j] = nodeArr[j];
+        }
+        TSP(&graphHead, current_permutation,len);
+    } else {
+        for (i = start; i <= end; i++) {
+            swap((nodeArr[start]), (nodeArr[i]));
+            permute(nodeArr, start + 1, end, len);
+            swap((nodeArr[start]), (nodeArr[i]));
+        }
     }
 }
+
+void swap(node *x, node *y) {
+    node temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
 
 //A 7 n 0 3 4 n 6 3 2
 // A 4 n 0 2 5 3 3 n 2 0 4 1 1 n 1 3 7 0 2
+
+

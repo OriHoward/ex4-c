@@ -70,6 +70,10 @@ void handleShortestPath();
 
 void handleTSP();
 
-void TSP(pnode *head,pnode *nodeArr);
+void TSP(pnode *head,pnode *nodeArr,int len);
+
+void swap(node *x, node *y);
+
+void permute(pnode *nodeArr, int start, int end, int len);
 
 #endif
