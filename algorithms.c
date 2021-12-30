@@ -281,7 +281,7 @@ void handleTSP() {
         if (shortestPath == INT_MAX) {
             shortestPath = -1;
         }
-        printf("TSP shortest path: %d\n", shortestPath);
+        printf("TSP shortest path: %d \n", shortestPath);
         for (int i = 0; i < numOfNodes; ++i) {
             free(nodeArr[i]);
         }
