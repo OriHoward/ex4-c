@@ -47,16 +47,16 @@ void deleteSrcEdges(pnode *head, int nodeId);
 
 double dijkstra(pnode *head, int srcNodeID, int destNodeID);
 
-void checkMemoryAllocation(void* pointer);
+void checkMemoryAllocation(void *pointer);
 
 void handleShortestPath();
 
 void handleTSP();
 
-int TSP(pnode *head,pnode *nodeArr,int len);
+int TSP(pnode *head, pnode *nodeArr, int len);
 
 void swap(node *x, node *y);
 
-void permute(pnode *nodeArr, int start, int end, int len,int *shortestPath);
+void permute(pnode *nodeArr, int start, int end, int len, int *shortestPath);
 
 #endif
