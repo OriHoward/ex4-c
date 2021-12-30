@@ -46,7 +46,6 @@ void handleDeleteNode() {
             freeEdges(&nodeToDelete->edges);
             free(nodeToDelete);
             nodeToDelete = NULL;
-            printf("banana");
         }
     }
 }
@@ -90,11 +89,8 @@ void connectEdge(int dest, int weight, node *currNode) {
     while (isAssigned) {
         isAssigned = scanf("%d %d", &dest, &weight);
         if (isAssigned && currNode && (dest) >= 0 && (weight) >= 0) {
-            printf("%d,%d edge \n", (dest), (weight));
             pnode destNode = findNode((dest), &graphHead);
-            if (!destNode) {
-                printf("Destination doesn't exist \n");
-            } else {
+            if (destNode) {
                 createEdge(&currNode->edges, destNode, (weight));
             }
             (dest) = -1;
@@ -124,7 +120,6 @@ void buildGraphNodes() {
     int num;
     isAssigned = scanf("%d", &num);
     if (isAssigned) {
-        printf("%d nodes created \n", (num));
         for (int i = 0; i < num; ++i) {
             insert_node_cmd(&graphHead);
         }
@@ -215,7 +210,8 @@ void createEdge(pedge *edgesHead, pnode dest, int weight) {
 
 double dijkstra(pnode *head, int srcNodeID, int destNodeID) {
     pnode srcNode = findNode(srcNodeID, head);
-    if (!srcNode) {
+    pnode destNode = findNode(destNodeID, head);
+    if (!srcNode || !destNode) {
         return -1;
     }
     srcNode->dist = 0;
@@ -244,7 +240,10 @@ double dijkstra(pnode *head, int srcNodeID, int destNodeID) {
             curredge = curredge->next;
         }
     }
-    return findNode(destNodeID, head)->dist;
+    if (destNode->dist == INT_MAX) {
+        destNode->dist = -1;
+    }
+    return destNode->dist;
 }
 
 void checkMemoryAllocation(void *pointer) {
@@ -257,7 +256,7 @@ void handleShortestPath() {
     int src, dest;
     if (scanf("%d %d", &src, &dest)) {
         double dist = dijkstra(&graphHead, src, dest);
-        printf("minimum distance is: %f \n", dist);
+        printf("Dijsktra shortest path: %d \n", (int) dist);
     }
 }
 
@@ -278,21 +277,28 @@ void handleTSP() {
             }
         }
         int shortestPath = INT_MAX;
-        permute(nodeArr, 0, numOfNodes - 1, numOfNodes,&shortestPath);
-        printf("%d",shortestPath);
+        permute(nodeArr, 0, numOfNodes - 1, numOfNodes, &shortestPath);
+        if (shortestPath == INT_MAX) {
+            shortestPath = -1;
+        }
+        printf("TSP shortest path: %d\n", shortestPath);
     }
 }
 
 int TSP(pnode *head, pnode *curr_permutation, int len) {
     int totalPathValue = 0;
     for (int i = 0; i < len - 1; ++i) {
-        totalPathValue += dijkstra(head, curr_permutation[i]->node_num, curr_permutation[i + 1]->node_num);
+        double distance = dijkstra(head, curr_permutation[i]->node_num, curr_permutation[i + 1]->node_num);
+        if (distance == -1) {
+            return INT_MAX;
+        }
+        totalPathValue += distance;
     }
     return totalPathValue;
 }
 
 
-void permute(pnode *nodeArr, int start, int end, int len,int *shortestPath) {
+void permute(pnode *nodeArr, int start, int end, int len, int *shortestPath) {
     int i;
     int currPath;
     pnode current_permutation[len];
@@ -303,12 +309,11 @@ void permute(pnode *nodeArr, int start, int end, int len,int *shortestPath) {
         currPath = TSP(&graphHead, current_permutation, len);
         if (currPath < *shortestPath) {
             *shortestPath = currPath;
-            printf("%d",*shortestPath);
         }
     } else {
         for (i = start; i <= end; i++) {
             swap((nodeArr[start]), (nodeArr[i]));
-            permute(nodeArr, start + 1, end, len,shortestPath);
+            permute(nodeArr, start + 1, end, len, shortestPath);
             swap((nodeArr[start]), (nodeArr[i]));
         }
     }
