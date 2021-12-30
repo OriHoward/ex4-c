@@ -277,30 +277,38 @@ void handleTSP() {
                 nodeArr[i] = newNode;
             }
         }
-        permute(nodeArr, 0, numOfNodes - 1, numOfNodes);
+        int shortestPath = INT_MAX;
+        permute(nodeArr, 0, numOfNodes - 1, numOfNodes,&shortestPath);
+        printf("%d",shortestPath);
     }
 }
 
-void TSP(pnode *head, pnode *curr_permutation,int len) {
-    for (int i = 0; i < len; ++i) {
-        printf("%d", curr_permutation[i]->node_num);
+int TSP(pnode *head, pnode *curr_permutation, int len) {
+    int totalPathValue = 0;
+    for (int i = 0; i < len - 1; ++i) {
+        totalPathValue += dijkstra(head, curr_permutation[i]->node_num, curr_permutation[i + 1]->node_num);
     }
-    printf("\n");
+    return totalPathValue;
 }
 
 
-void permute(pnode *nodeArr, int start, int end, int len) {
+void permute(pnode *nodeArr, int start, int end, int len,int *shortestPath) {
     int i;
+    int currPath;
     pnode current_permutation[len];
     if (start == end) {
         for (int j = 0; j < len; ++j) {
             current_permutation[j] = nodeArr[j];
         }
-        TSP(&graphHead, current_permutation,len);
+        currPath = TSP(&graphHead, current_permutation, len);
+        if (currPath < *shortestPath) {
+            *shortestPath = currPath;
+            printf("%d",*shortestPath);
+        }
     } else {
         for (i = start; i <= end; i++) {
             swap((nodeArr[start]), (nodeArr[i]));
-            permute(nodeArr, start + 1, end, len);
+            permute(nodeArr, start + 1, end, len,shortestPath);
             swap((nodeArr[start]), (nodeArr[i]));
         }
     }
